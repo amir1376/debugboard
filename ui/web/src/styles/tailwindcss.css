@@ -1,0 +1,7 @@
+@tailwind components;
+@tailwind base;
+@tailwind utilities;
+
+.tab.tab-active {
+    @apply border-primary;
+}

@@ -1,0 +1,11 @@
+@import "tailwindcss.css";
+@import "highlight.js/styles/androidstudio.css";
+
+.ReactCollapse--collapse {
+    transition: height 300ms ease-in-out;
+}
+
+.hljs {
+    color: #a9b7c6;
+    @apply bg-base-content/10;
+}
