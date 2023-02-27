@@ -43,11 +43,11 @@ val client = HttpClient {
         json()
     }
     install(Logging) {
-        logger = Logger.DEFAULT
+        this.logger=Logger.SIMPLE
     }
-    install(KtorDebugBoard) {
-        debugBoard(debugBoard)
-    }
+//    install(KtorDebugBoard) {
+//        debugBoard(debugBoard)
+//    }
 }
 val retrofit = Retrofit
     .Builder()
@@ -127,14 +127,18 @@ fun sendRequestRandomely() {
     scope.launch {
         while (isActive) {
             delay(2000)
-            runCatching {
-                val randomNumber = (1..10).random().toString()
-                api.getQuestions(randomNumber)
-            }
+//            runCatching {
+//                val randomNumber = (1..10).random().toString()
+//                api.getQuestions(randomNumber)
+//            }.onFailure {
+//                it.printStackTrace()
+//            }
             delay(1000)
             kotlin.runCatching {
                 val randomNumber = (1..10).random().toString()
                 client.get("https://jsonplaceholder.typicode.com/todos/$randomNumber")
+            }.onFailure {
+                it.printStackTrace()
             }
         }
     }
