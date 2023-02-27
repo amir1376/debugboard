@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 .tab.tab-active {
-    @apply border-primary;
+    @apply border-primary text-primary;
 }

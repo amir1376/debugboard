@@ -33,7 +33,7 @@ function RenderTabBar(props: {
             (["Request", "Response"] as Tabs[]).map((name) => (
                 <div key={name}
                      className={classNames(
-                         "tab tab-lg tab-border-2 flex-1 tab-bordered",
+                         "transition-colors tab tab-lg tab-border-3 flex-1 tab-bordered",
                          props.selectedTab == name && "tab-active",
                      )}
                      onClick={() => {
@@ -94,13 +94,13 @@ function CommonAttributes(props: {
 }) {
     return <div className="flex flex-row items-center px-2 py-2">
         <div className={classNames(
-            "text-primary-content/50 font-bold",
+            "text-base-content/50 font-bold",
             props.value !== undefined ? "w-1/3" : "w-full"
         )}>
             {props.name}
         </div>
         <div className={classNames(
-            "text-primary-content w-2/3",
+            "text-base-content w-2/3",
             " break-words",
         )}>
             {props.value}
@@ -158,12 +158,12 @@ function RenderRequestTab(props: { request: Request }) {
 function HttpHeaderAndValue(props: { name: string, value: string[] }) {
     return <div className="flex flex-row p-2">
         <div className={classNames(
-            "w-1/3 text-primary-content/80",
+            "w-1/3 text-base-content/80",
         )}>
             {props.name}
         </div>
         <div className={classNames(
-            "w-2/3 text-primary-content w-2/3",
+            "w-2/3 text-base-content w-2/3",
         )}>
             {props.value.join("; ")}
         </div>

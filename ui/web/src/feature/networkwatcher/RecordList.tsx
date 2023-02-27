@@ -25,9 +25,9 @@ export function RecordList(
                     return <RecordListItem
                         key={item.tag}
                         className={classNames(
-                            "transition-colors hover:bg-base-content/20",
-                            selected && "border border-success",
-                            selected ? "bg-success/10" : "bg-base-200",
+                            "transition-colors active:bg-primary active:text-primary-content",
+                            selected && "border border-primary",
+                            selected ? "bg-primary/30 text-primary-content/70" : "bg-base-200 text-base-content hover:bg-base-content/20 hover:text-base-content",
                         )}
                         networkData={item}
                         onclick={() => {
