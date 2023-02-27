@@ -1,7 +1,7 @@
 [![](https://jitpack.io/v/amir1376/debugboard.svg)](https://jitpack.io/#amir1376/debugboard)
 ## Debug Board
 
-Runtime debug utils for kotlin
+Runtime debug utils for kotlin that has a web panel
 
 ## Features
 
@@ -14,9 +14,9 @@ Runtime debug utils for kotlin
 
 ### Dependency
 
-in your gradle build script file
+In your gradle build script file
 
-- add jitpack repository
+- Add the jitpack repository
 
 ```kotlin 
 repositories {
@@ -25,7 +25,7 @@ repositories {
 }
 ```
 
-- declare dependencies
+- Declare dependencies
 
 ```kotlin 
 dependencies {
@@ -45,10 +45,10 @@ dependencies {
 
 ## Usage
 
-first of all create an instance of `DebugBoard`
+First of all create an instance of `DebugBoard`
 and also start embedded webserver to access the Web Panel
 
-###### note: server listens on port 8000 by default
+###### Note: server listens on port 8000 by default
 (also server address will be logged in stdout)
 ```kotlin
 val debugBoard = DebugBoard()
@@ -65,19 +65,19 @@ val stateFlow = MutableStateFlow("bla bla")
 val watchable = FlowWatchable("variable", flow)
 ```
 
-add to watch list
+Add to watch list
 
 ```kotlin
 debugBoard.variableWatcher.addWatch(watchable)
 ```
 
-and after you don't want to watch this anymore
+And after you don't want to watch this anymore
 
 ```kotlin
 debugBoard.variableWatcher.removeWatch(watchable)
 ```
 
-now when `stateFlow` changes you will be notified in Web Panel
+Now when `stateFlow` changes you will be notified in Web Panel
 ```kotlin
 stateFlow.value = "ha ha"  
 ```
@@ -85,7 +85,7 @@ stateFlow.value = "ha ha"
 
 ### Network inspection
 
-add one of network library integrations to your project dependencies
+Add one of network library integrations to your project dependencies
 
 - #### [Ktor client](https://github.com/ktorio/ktor)
 
@@ -107,9 +107,9 @@ OkHttpClient
     .build()
 ```
 
-now all your request and response will be available in the Web Panel
+Now all your request and response will be available in the Web Panel
 
-you can send some logs to the log panel here is an example
+You can send some logs to the log panel here is an example
 
 ```kotlin
 debugBoard.logger.log(
@@ -121,7 +121,7 @@ debugBoard.logger.log(
 )
 ```
 #### Timber
-if you use [timber library](https://github.com/JakeWharton/timber) you can plant `DebugBoardTree` to add your log data
+If you use [timber library](https://github.com/JakeWharton/timber) you can plant `DebugBoardTree` to add your log data
 into the Web Panel
 in your Application class initial `timber` with
 
@@ -132,8 +132,8 @@ Timber.plant(
 )
 ```
 
-## todos
-1. [ ] add jetpack compose integration and utilities
-2. [ ] improve ktor plugin to handle errors
-3. [ ] add some screenshots from the Web Panel
-
+## Todos
+1. [ ] Add jetpack compose integration and utilities
+2. [ ] Improve ktor plugin to handle errors
+3. [ ] Add some screenshots from the Web Panel
+4. [ ] Add database management
