@@ -138,4 +138,5 @@ Timber.plant(
 1. [ ] Add jetpack compose integration and utilities
 2. [ ] Improve ktor plugin to handle errors
 3. [ ] Add some screenshots from the Web Panel
-4. [ ] Add database management
+4. [ ] Improve log and add filter in Web Panel
+5. [ ] Add database management
