@@ -32,7 +32,7 @@ dependencies {
     //core library
     implementation("com.github.amir1376.debugboard:core")
     //backend for Web Panel
-    implementation("com.github.amir1376.debugboard:core")
+    implementation("com.github.amir1376.debugboard:backend")
 
     //add one of these integrations for network inspection
     implementation("com.github.amir1376.debugboard:ktor")
