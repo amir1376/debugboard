@@ -6,6 +6,7 @@ import {LogData, LogLevel} from "./LogData";
 import classNames from "classnames";
 import {runWith} from "../../utils/functionalUtils";
 import {Helmet} from "react-helmet";
+import {Icon} from "@iconify/react";
 
 export function LoggerPage() {
     return <>
@@ -35,10 +36,45 @@ function LogList(props: { list: ReadonlyArray<LogData> }) {
     </div>
 }
 
+function LogFilter(
+    props: {
+        messageFilter: string,
+        tagFilter: string,
+        setMessageFilter: (string: string) => void
+        setTagFilter: (string: string) => void
+    }
+) {
+    return <div className="bg-base-300 flex items-center space-x-2 shadow p-2">
+        <Icon className="w-6 h-6" icon="ic:round-filter-alt"/>
+        <input
+            value={props.tagFilter}
+            onChange={(event) => props.setTagFilter(event.target.value)}
+            placeholder="Tag"
+            type="text"
+            className="input input-bordered w-1/2 md:w-auto input-sm outline-none"
+        />
+        <input
+            value={props.messageFilter}
+            onChange={(event) => props.setMessageFilter(event.target.value)}
+            placeholder="Filter Message"
+            type="text"
+            className="input input-bordered w-1/2 md:w-auto input-sm outline-none"
+        />
+    </div>
+}
+
 const LoggerView: FC = observer(() => {
     const vm = useViewModel(() => new LoggerViewModel())
-    return <div className="flex flex-col flex-grow">
-        <LogList list={vm.logData}/>
+    return <div className="flex flex-col flex-grow overflow-y-hidden">
+        <LogFilter
+            messageFilter={vm.messageFilter}
+            setMessageFilter={(msg) => vm.messageFilter = msg}
+            tagFilter={vm.tagFilter}
+            setTagFilter={(tag) => vm.tagFilter = tag}
+        />
+        <div className="flex overflow-y-auto">
+            <LogList list={vm.logData}/>
+        </div>
     </div>
 })
 

@@ -14,7 +14,7 @@ export function AppBar() {
     const mobile = isMobile()
     return <div className={
         classNames(
-            "h-12 flex w-full items-center py-2 bg-base-300",
+            "h-12 shrink-0 flex w-full items-center py-2 bg-base-300",
             "pr-4",
             "shadow",
         )
