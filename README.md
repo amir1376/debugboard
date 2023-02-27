@@ -1,3 +1,4 @@
+[![](https://jitpack.io/v/amir1376/debugboard.svg)](https://jitpack.io/#amir1376/debugboard)
 ## Debug Board
 
 Runtime debug utils for kotlin
@@ -30,7 +31,7 @@ repositories {
 dependencies {
     //core library
     implementation("com.github.amir1376.debugboard:core")
-    //backend for web panel
+    //backend for Web Panel
     implementation("com.github.amir1376.debugboard:core")
 
     //add one of these integrations for network inspection
@@ -45,7 +46,7 @@ dependencies {
 ## Usage
 
 first of all create an instance of `DebugBoard`
-and also start embedded webserver to access the web panel
+and also start embedded webserver to access the Web Panel
 
 ###### note: server listens on port 8000 by default
 (also server address will be logged in stdout)
@@ -76,7 +77,7 @@ and after you don't want to watch this anymore
 debugBoard.variableWatcher.removeWatch(watchable)
 ```
 
-now when `stateFlow` changes you will be notified in web panel
+now when `stateFlow` changes you will be notified in Web Panel
 ```kotlin
 stateFlow.value = "ha ha"  
 ```
@@ -106,7 +107,7 @@ OkHttpClient
     .build()
 ```
 
-now all your request and response will be available in the web panel
+now all your request and response will be available in the Web Panel
 
 you can send some logs to the log panel here is an example
 
@@ -121,7 +122,7 @@ debugBoard.logger.log(
 ```
 #### Timber
 if you use [timber library](https://github.com/JakeWharton/timber) you can plant `DebugBoardTree` to add your log data
-into the web panel
+into the Web Panel
 in your Application class initial `timber` with
 
 ```kotlin
@@ -131,11 +132,8 @@ Timber.plant(
 )
 ```
 
-
-
-
-
-
-
-
+## todos
+1. [ ] add jetpack compose integration and utilities
+2. [ ] improve ktor plugin to handle errors
+3. [ ] add some screenshots from the Web Panel
 
