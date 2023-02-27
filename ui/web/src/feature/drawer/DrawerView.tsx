@@ -108,12 +108,10 @@ function RenderSideMenu() {
 function RenderSideFooter() {
     return <ul className="menu">
         <li>
-            <div className="p-2 flex">
+            <a href={githubUrl} className="p-2 flex">
                 <Icon icon="mdi:github"/>
-                <a href={githubUrl}>
-                    Github
-                </a>
-            </div>
+                <div>Github</div>
+            </a>
         </li>
     </ul>
 }
