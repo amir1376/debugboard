@@ -15,7 +15,7 @@ export function AppBar() {
     return <div className={
         classNames(
             "h-12 flex w-full items-center py-2 bg-base-300",
-            mobile ? "pr-1" : "pr-4",
+            "pr-4",
             "shadow",
         )
     }>
@@ -48,7 +48,7 @@ function RenderBackendState() {
         case "open":
             content = <div className="flex items-center text-success">
                 <div>
-                    device connected
+                    Connected
                 </div>
             </div>
             break
