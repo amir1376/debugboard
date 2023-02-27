@@ -16,8 +16,8 @@ Runtime debug utils for kotlin that has a web panel
 
 In your gradle build script file
 
-- Add the jitpack repository
-
+- Add the `jitpack` repository
+###### build.gradle.kts
 ```kotlin 
 repositories {
     //...
@@ -26,20 +26,22 @@ repositories {
 ```
 
 - Declare dependencies
-
+###### build.gradle.kts
 ```kotlin 
 dependencies {
+    //...
+    val version=/*see the last version above*/ 
     //core library
-    implementation("com.github.amir1376.debugboard:core")
+    implementation("com.github.amir1376.debugboard:core:$version")
     //backend for Web Panel
-    implementation("com.github.amir1376.debugboard:backend")
+    implementation("com.github.amir1376.debugboard:backend:$version")
 
     //add one of these integrations for network inspection
-    implementation("com.github.amir1376.debugboard:ktor")
-    implementation("com.github.amir1376.debugboard:okhttp")
+    implementation("com.github.amir1376.debugboard:ktor:$version")
+    implementation("com.github.amir1376.debugboard:okhttp:$version")
 
     // integration for android timber library
-    implementation("com.github.amir1376.debugboard:timber")
+    implementation("com.github.amir1376.debugboard:timber:$version")
 }
 ```
 
