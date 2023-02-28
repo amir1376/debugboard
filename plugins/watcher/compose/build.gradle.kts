@@ -1,18 +1,25 @@
-plugins{
-//    id("com.android.library")
+plugins {
+    id("com.android.library")
     kotlin("multiplatform")
     id("org.jetbrains.compose")
+    `maven-publish`
 }
-kotlin{
+android {
+
+    namespace = "ir.amirab.debugboard.plugin.watcher.compose"
+}
+
+kotlin {
     jvm()
-    sourceSets{
-        commonMain{
+    android {
+        publishLibraryVariants("release")
+    }
+    sourceSets {
+        commonMain {
             dependencies {
                 implementation(project(":core"))
                 api(compose.runtime)
-//                api(compose.foundation)
             }
         }
     }
-
 }

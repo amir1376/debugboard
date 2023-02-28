@@ -1,7 +1,7 @@
 plugins {
     kotlin("jvm")
     id("org.jetbrains.compose")
-    kotlin("plugin.serialization").version("1.8.0")
+    kotlin("plugin.serialization")
 }
 
 dependencies {

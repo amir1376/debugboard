@@ -27,6 +27,7 @@ import ir.amirab.debugboard.core.plugins.watchable.ObservableWatchable
 import ir.amirab.debugboard.core.plugins.watchable.Watchable
 import ir.amirab.debugboard.extentions.addWatch
 import ir.amirab.debugboard.plugin.network.ktor.KtorDebugBoard
+import ir.amirab.debugboard.plugin.watcher.compose.AddWatch
 import kotlinx.coroutines.flow.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
