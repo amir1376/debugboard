@@ -17,6 +17,6 @@ android {
     namespace = "ir.amirab.debugboard.plugin.timber"
 }
 dependencies {
-    implementation(libs.timber)
     implementation(project(":core"))
+    implementation(libs.timber)
 }

@@ -2,7 +2,7 @@ plugins {
     // this is necessary to avoid the plugins to be loaded multiple times
     // in each subproject's classloader
     val kotlinVersion = "1.8.0"
-    val agpVersion = "7.1.3"
+    val agpVersion = "7.3.0"
     val composeVersion = "1.3.0"
 
     kotlin("jvm").version(kotlinVersion) apply false
@@ -16,6 +16,7 @@ plugins {
 }
 val projectCompileSdk by ext(33)
 val projectTargetSdk by ext(33)
+val projectMinSdk by ext(24)
 
 allprojects {
     group = "ir.amirab.debugboard"
@@ -34,6 +35,9 @@ subprojects {
                 (this as ExtensionAware).extensions.configure("android", configure)
             android {
                 compileSdk = projectCompileSdk
+                defaultConfig{
+                    minSdk=projectMinSdk
+                }
             }
         }
     }
