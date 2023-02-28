@@ -19,13 +19,9 @@ private val RequestAndResponseTag = AttributeKey<Any>("RequestAndResponseTag")
 
 @KtorDsl
 class Config {
-    private lateinit var debugBoard: DebugBoard
+    var debugBoard: DebugBoard = DebugBoard.Default
 
     internal val networkMonitor: NetworkMonitor get() = debugBoard.networkMonitor
-
-    public fun debugBoard(board: DebugBoard) {
-        debugBoard = board
-    }
 }
 
 val KtorDebugBoard = createClientPlugin("KtorDebugBoard", ::Config) {

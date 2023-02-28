@@ -7,7 +7,7 @@ import ir.amirab.debugboard.core.plugins.LogLevel
 import timber.log.Timber
 
 class DebugBoardTree(
-    private val debugBoard: DebugBoard
+    private val debugBoard: DebugBoard=DebugBoard.Default
 ) : Timber.DebugTree() {
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
         debugBoard.logger.log(

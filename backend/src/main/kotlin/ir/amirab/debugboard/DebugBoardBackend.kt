@@ -17,7 +17,7 @@ import java.util.logging.Logger
 import kotlin.concurrent.thread
 
 class DebugBoardBackend(
-    private val debugBoard: DebugBoard,
+    private val debugBoard: DebugBoard = DebugBoard.Default,
 ) {
     private fun Routing.defineDebugBoardRoutes(prefix: String = "/") {
         val json = Json {

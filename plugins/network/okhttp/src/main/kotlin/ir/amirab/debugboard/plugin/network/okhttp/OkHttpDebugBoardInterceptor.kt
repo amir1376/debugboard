@@ -5,7 +5,7 @@ import ir.amirab.debugboard.core.DebugBoard
 
 
 class OkHttpDebugBoardInterceptor(
-    private val debugBoard: DebugBoard
+    private val debugBoard: DebugBoard = DebugBoard.Default
 ) : Interceptor {
     private var maxContentLength = 250000L
 

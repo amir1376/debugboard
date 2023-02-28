@@ -21,21 +21,18 @@ import kotlinx.serialization.Serializable
 import okhttp3.OkHttpClient
 import ir.amirab.debugboard.core.DebugBoard
 import ir.amirab.debugboard.DebugBoardBackend
-import ir.amirab.debugboard.plugin.network.ktor.KtorDebugBoard
 import project.LocalDebugBoard
 import ir.amirab.debugboard.core.plugins.FlowWatchable
 import ir.amirab.debugboard.core.plugins.LogData
 import ir.amirab.debugboard.core.plugins.LogLevel
+import ir.amirab.debugboard.plugin.network.ktor.KtorDebugBoard
 import project.ui.variablewatcher.DebagBoardView
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Query
-import kotlin.concurrent.thread
 import kotlin.time.Duration.Companion.seconds
 
-val debugBoard = DebugBoard()
 val scope = CoroutineScope(Dispatchers.Default)
 val faker = Faker()
 val client = HttpClient {
@@ -45,9 +42,7 @@ val client = HttpClient {
     install(Logging) {
         this.logger=Logger.SIMPLE
     }
-//    install(KtorDebugBoard) {
-//        debugBoard(debugBoard)
-//    }
+    install(KtorDebugBoard)
 }
 val retrofit = Retrofit
     .Builder()
@@ -56,7 +51,7 @@ val retrofit = Retrofit
     .client(
         OkHttpClient
             .Builder()
-            .addInterceptor(OkHttpDebugBoardInterceptor(debugBoard))
+            .addInterceptor(OkHttpDebugBoardInterceptor())
             .build()
     ).build()
 
@@ -74,8 +69,7 @@ class AClass {
 }
 
 fun main() {
-    DebugBoardBackend(debugBoard = debugBoard)
-        .startWithDefaultServer()
+    DebugBoardBackend().startWithDefaultServer()
     addVariableAndUpdate()
     sendRequestRandomely()
     addLogRandomely()
@@ -85,7 +79,7 @@ fun main() {
     ) {
         MaterialTheme(darkColors()) {
             CompositionLocalProvider(
-                LocalDebugBoard provides debugBoard
+                LocalDebugBoard provides DebugBoard.Default
             ) {
                 RenderScreen()
             }
@@ -98,7 +92,7 @@ fun addLogRandomely() {
     scope.launch {
         while (isActive) {
             delay(5.seconds)
-            debugBoard.logger.log(
+            DebugBoard.Default.logger.log(
                 LogData(
                     System.currentTimeMillis(),
                     listOf(
@@ -154,9 +148,9 @@ fun addVariableAndUpdate() {
             delay(5000)
         }
     }
-    debugBoard.variableWatcher.addWatch(FlowWatchable("x", x))
-    debugBoard.variableWatcher.addWatch(FlowWatchable("y", y))
-    debugBoard.variableWatcher.addWatch(FlowWatchable("z", x.map {
+    DebugBoard.Default.variableWatcher.addWatch(FlowWatchable("x", x))
+    DebugBoard.Default.variableWatcher.addWatch(FlowWatchable("y", y))
+    DebugBoard.Default.variableWatcher.addWatch(FlowWatchable("z", x.map {
         it.map { it.toInt() }.sum()
     }))
 }
