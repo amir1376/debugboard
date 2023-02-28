@@ -16,6 +16,7 @@ import ir.amirab.debugboard.backend.commands.NetworkSubscribe
 import ir.amirab.debugboard.backend.commands.NetworkUnSubscribe
 import ir.amirab.debugboard.backend.commands.VariableWatcherSetOpenPaths
 import ir.amirab.debugboard.backend.commands.WebsocketClientCommand
+import ir.amirab.debugboard.core.plugins.watchable.WatcherItem
 import ir.amirab.debugboard.models.ApiFailResponse
 import ir.amirab.debugboard.models.ApiLogData
 import ir.amirab.debugboard.models.ApiNetworkData

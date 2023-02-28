@@ -17,6 +17,7 @@ dependencies {
     implementation(libs.ktor.serialization.kotlinxJson)
     implementation("io.ktor:ktor-client-logging-jvm:2.2.2")
     implementation(project(":plugins:network:ktor"))
+    implementation(project(":plugins:watcher:compose"))
     implementation(libs.retrofit.retrofit)
     implementation(libs.retrofit.gsonConverter)
     implementation(project(":plugins:network:okhttp"))

@@ -2,7 +2,7 @@ package ir.amirab.debugboard.core
 
 import ir.amirab.debugboard.core.plugins.Logger
 import ir.amirab.debugboard.core.plugins.NetworkMonitor
-import ir.amirab.debugboard.core.plugins.VariableWatcher
+import ir.amirab.debugboard.core.plugins.watchable.VariableWatcher
 
 class DebugBoard {
     companion object {

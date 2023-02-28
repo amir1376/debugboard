@@ -2,7 +2,7 @@ package project.ui.api
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import ir.amirab.debugboard.core.plugins.Watchable
+import ir.amirab.debugboard.core.plugins.watchable.Watchable
 import project.ui.variablewatcher.rememberVariableWatcher
 
 @Composable

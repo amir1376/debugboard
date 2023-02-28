@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import project.LocalDebugBoard
-import ir.amirab.debugboard.core.plugins.VariableWatcher
-import ir.amirab.debugboard.core.plugins.WatcherItem
+import ir.amirab.debugboard.core.plugins.watchable.VariableWatcher
+import ir.amirab.debugboard.core.plugins.watchable.WatcherItem
 import project.utils.Result
 import project.utils.rememberSuspendedValue
 import project.widgets.TreeView

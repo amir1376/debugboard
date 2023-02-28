@@ -1,8 +1,7 @@
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.darkColors
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.singleWindowApplication
@@ -15,18 +14,20 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import ir.amirab.debugboard.plugin.network.okhttp.OkHttpDebugBoardInterceptor
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.serialization.Serializable
 import okhttp3.OkHttpClient
 import ir.amirab.debugboard.core.DebugBoard
 import ir.amirab.debugboard.DebugBoardBackend
 import project.LocalDebugBoard
-import ir.amirab.debugboard.core.plugins.FlowWatchable
+import ir.amirab.debugboard.extentions.FlowWatchable
 import ir.amirab.debugboard.core.plugins.LogData
 import ir.amirab.debugboard.core.plugins.LogLevel
+import ir.amirab.debugboard.core.plugins.watchable.BaseWatchable
+import ir.amirab.debugboard.core.plugins.watchable.ObservableWatchable
+import ir.amirab.debugboard.core.plugins.watchable.Watchable
+import ir.amirab.debugboard.extentions.addWatch
 import ir.amirab.debugboard.plugin.network.ktor.KtorDebugBoard
-import project.ui.variablewatcher.DebagBoardView
+import kotlinx.coroutines.flow.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -71,8 +72,8 @@ class AClass {
 fun main() {
     DebugBoardBackend().startWithDefaultServer()
     addVariableAndUpdate()
-    sendRequestRandomely()
-    addLogRandomely()
+//    sendRequestRandomely()
+//    addLogRandomely()
     singleWindowApplication(
         title = "Code Viewer",
         state = WindowState(width = 400.dp, height = 768.dp),
@@ -148,16 +149,43 @@ fun addVariableAndUpdate() {
             delay(5000)
         }
     }
-    DebugBoard.Default.variableWatcher.addWatch(FlowWatchable("x", x))
-    DebugBoard.Default.variableWatcher.addWatch(FlowWatchable("y", y))
-    DebugBoard.Default.variableWatcher.addWatch(FlowWatchable("z", x.map {
+    addWatch("x", x)
+    addWatch("y", y)
+    addWatch("z",0, x.map {
         it.map { it.toInt() }.sum()
-    }))
+    })
 }
+
 
 @Composable
 fun RenderScreen() {
     Scaffold {
-        DebagBoardView()
+        val (count,setCount)=remember{
+            mutableStateOf(1)
+        }
+        Column {
+            Row{
+                Button({setCount(count+1)}){
+                    Text("+")
+                }
+                Button({setCount(count-1)}){
+                    Text("-")
+                }
+            }
+            repeat(count){
+                TextFieldView(it)
+            }
+        }
+
     }
 }
+@Composable
+fun TextFieldView(index:Int){
+    val (text,setText) = remember { mutableStateOf("") }
+    AddWatch("text$index",text)
+    TextField(text, onValueChange = {
+        setText(it)
+    })
+}
+
+//        DebagBoardView()

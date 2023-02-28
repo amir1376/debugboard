@@ -14,6 +14,7 @@ include(":ui:web")
 include(":plugins:network:ktor")
 include(":plugins:network:okhttp")
 include(":plugins:logger:timber")
+include(":plugins:watcher:compose")
 
 include(":samples:android")
 include(":samples:desktop")

@@ -1,7 +1,7 @@
-package ir.amirab.debugboard.core.extentions
+package ir.amirab.debugboard.extentions
 
-import ir.amirab.debugboard.core.plugins.VariableWatcher
-import ir.amirab.debugboard.core.plugins.Watchable
+import ir.amirab.debugboard.core.plugins.watchable.VariableWatcher
+import ir.amirab.debugboard.core.plugins.watchable.Watchable
 
 suspend fun VariableWatcher.withWatch(
     watchable: Watchable<*>,
