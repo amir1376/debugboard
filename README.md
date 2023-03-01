@@ -29,9 +29,9 @@ repositories {
 
 dependencies {
     //...
-    val version =/*see the last version above*/
-        //core library
-        implementation("com.github.amir1376.debugboard:core:$version")
+    val version = "x.y.z" //see the last version above
+    //core library
+    implementation("com.github.amir1376.debugboard:core:$version")
     //backend for Web Panel
     implementation("com.github.amir1376.debugboard:backend:$version")
     //optional integrations
@@ -58,6 +58,7 @@ DebugBoardBackend().startWithDefaultServer()
 ```
 
 ### Watch a variable
+
 ![Watcher in panel](static/watcher_panel.png)
 
 To watch a variable you have to passed it into addWatch
@@ -111,6 +112,7 @@ OkHttpClient
 Now all your request and response will be available in the Web Panel
 
 ### Log
+
 You can send some logs to the log panel here is an example
 
 ```kotlin
@@ -132,8 +134,8 @@ it will be automatically removed after Composable exits from the screen
 ```kotlin
 @Composable
 fun MyPage() {
-    val myUiState =/*...*/
-        AddWatch("MyPageState", myUiState)
+    val myUiState = rememberSomeUiState()
+    AddWatch("MyPageState", myUiState)
 }
 ```
 
