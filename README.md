@@ -58,6 +58,7 @@ DebugBoardBackend().startWithDefaultServer()
 ```
 
 ### Watch a variable
+![Watcher in panel](static/watcher_panel.png)
 
 To watch a variable you have to passed it into addWatch
 
@@ -84,6 +85,8 @@ removeWatch()
 
 ### Network inspection
 
+![Network Panel](/static/network_panel.png)
+
 Add one of network library integrations to your project dependencies
 
 - #### [Ktor client](https://github.com/ktorio/ktor)
@@ -107,6 +110,7 @@ OkHttpClient
 
 Now all your request and response will be available in the Web Panel
 
+### Log
 You can send some logs to the log panel here is an example
 
 ```kotlin
@@ -150,6 +154,6 @@ Timber.plant(
 
 1. [X] Add jetpack compose integration and utilities
 2. [X] Improve ktor plugin to handle errors
-3. [ ] Add some screenshots from the Web Panel
+3. [X] Add some screenshots from the Web Panel
 4. [X] Improve log and add filter in Web Panel
 5. [ ] Add database into panel
