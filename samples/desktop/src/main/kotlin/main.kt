@@ -19,12 +19,8 @@ import okhttp3.OkHttpClient
 import ir.amirab.debugboard.core.DebugBoard
 import ir.amirab.debugboard.DebugBoardBackend
 import project.LocalDebugBoard
-import ir.amirab.debugboard.extentions.FlowWatchable
 import ir.amirab.debugboard.core.plugins.LogData
 import ir.amirab.debugboard.core.plugins.LogLevel
-import ir.amirab.debugboard.core.plugins.watchable.BaseWatchable
-import ir.amirab.debugboard.core.plugins.watchable.ObservableWatchable
-import ir.amirab.debugboard.core.plugins.watchable.Watchable
 import ir.amirab.debugboard.extentions.addWatch
 import ir.amirab.debugboard.plugin.network.ktor.KtorDebugBoard
 import ir.amirab.debugboard.plugin.watcher.compose.AddWatch
@@ -141,20 +137,38 @@ fun sendRequestRandomely() {
 }
 
 fun addVariableAndUpdate() {
-    val x = MutableStateFlow(emptyList<String>())
-    val y = MutableStateFlow(AClass())
+    val stateFlow = MutableStateFlow(emptyList<String>())
+    val aClass = MutableStateFlow(AClass())
+
+
+
     scope.launch {
         var counter = 0
         while (isActive) {
-            x.value = x.value + "${counter++}"
+            stateFlow.value = stateFlow.value + "${counter++}"
             delay(5000)
         }
     }
-    addWatch("x", x)
-    addWatch("y", y)
-    addWatch("z",0, x.map {
-        it.map { it.toInt() }.sum()
+    var pp="hello"
+    addWatch("periodicSample",
+        period=1000
+    ){ pp }
+    scope.launch {
+        var count=0
+        while (isActive){
+            pp="${count++}"
+            delay(10)
+        }
+    }
+
+    addWatch<String?>("flowSample",null, flow {
+        delay(10000)
+        emit("after 10 seconds I will be there")
     })
+
+    addWatch("stateFlowSample", stateFlow)
+
+    addWatch("anyInstance", aClass)
 }
 
 
