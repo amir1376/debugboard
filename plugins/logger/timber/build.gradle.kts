@@ -15,6 +15,9 @@ publishing {
 
 android {
     namespace = "ir.amirab.debugboard.plugin.timber"
+    defaultConfig {
+        minSdk = 14
+    }
 }
 dependencies {
     implementation(project(":core"))

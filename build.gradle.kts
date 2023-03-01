@@ -16,11 +16,10 @@ plugins {
 }
 val projectCompileSdk by ext(33)
 val projectTargetSdk by ext(33)
-val projectMinSdk by ext(24)
 
 allprojects {
     group = "ir.amirab.debugboard"
-    version = "0.2.0"
+    version = "0.2.1"
     repositories {
         google()
         mavenCentral()
@@ -35,9 +34,6 @@ subprojects {
                 (this as ExtensionAware).extensions.configure("android", configure)
             android {
                 compileSdk = projectCompileSdk
-                defaultConfig{
-                    minSdk=projectMinSdk
-                }
             }
         }
     }

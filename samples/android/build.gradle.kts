@@ -8,7 +8,8 @@ plugins {
 android {
     compileSdk = 33
     defaultConfig {
-        minSdk = 24
+        // as we use compose this is minimum sdk that compose supports
+        minSdk = 21
         applicationId = "ir.amirab.debugboard.sample"
         namespace = "ir.amirab.debugboard.sample"
     }
