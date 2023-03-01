@@ -20,7 +20,7 @@ val projectMinSdk by ext(24)
 
 allprojects {
     group = "ir.amirab.debugboard"
-    version = "0.0.1"
+    version = "0.2.0"
     repositories {
         google()
         mavenCentral()

@@ -1,4 +1,5 @@
 [![](https://jitpack.io/v/amir1376/debugboard.svg)](https://jitpack.io/#amir1376/debugboard)
+
 ## Debug Board
 
 Runtime debug utils for kotlin that has a web panel
@@ -16,76 +17,70 @@ Runtime debug utils for kotlin that has a web panel
 
 ### Dependency
 
-In your gradle build script file
+Add to your gradle build script file
 
-- Add the `jitpack` repository
-###### build.gradle.kts
 ```kotlin 
+//build.gradle.kts
+
 repositories {
     //...
     maven("https://jitpack.io")
 }
-```
 
-- Declare dependencies
-###### build.gradle.kts
-```kotlin 
 dependencies {
     //...
-    val version=/*see the last version above*/ 
-    //core library
-    implementation("com.github.amir1376.debugboard:core:$version")
+    val version =/*see the last version above*/
+        //core library
+        implementation("com.github.amir1376.debugboard:core:$version")
     //backend for Web Panel
     implementation("com.github.amir1376.debugboard:backend:$version")
-
+    //optional integrations
     //add one of these integrations for network inspection
     implementation("com.github.amir1376.debugboard:ktor:$version")
     implementation("com.github.amir1376.debugboard:okhttp:$version")
-
     // integration for android timber library
     implementation("com.github.amir1376.debugboard:timber:$version")
+    // integration for jetpack compose library 
+    implementation("com.github.amir1376.debugboard:compose:$version")
 }
 ```
 
 ## Usage
 
-First of all create an instance of `DebugBoard`
-and also start embedded webserver to access the Web Panel
+Start embedded Web Server to access the Web Panel
 
 ###### Note: server listens on port 8000 by default
-(also server address will be logged in stdout)
+
+(also server address will be logged in `STDOUT`)
+
 ```kotlin
-val debugBoard = DebugBoard()
-DebugBoardBackend(debugBoard = debugBoard).startWithDefaultServer()
+DebugBoardBackend().startWithDefaultServer()
 ```
 
 ### Watch a variable
 
-To watch a variable , your variable must be an observable or somehow notify library about its update
+To watch a variable you have to passed it into addWatch
+
+your variable must be an observable or somehow notify library about its update
 here I use a StateFlow
 
 ```kotlin
 val stateFlow = MutableStateFlow("bla bla")
-val watchable = FlowWatchable("variable", flow)
-```
-
-Add to watch list
-
-```kotlin
-debugBoard.variableWatcher.addWatch(watchable)
-```
-
-And after you don't want to watch this anymore
-
-```kotlin
-debugBoard.variableWatcher.removeWatch(watchable)
+val removeWatch = addWatch("specifyName", stateFlow) 
 ```
 
 Now when `stateFlow` changes you will be notified in Web Panel
+
 ```kotlin
 stateFlow.value = "ha ha"  
 ```
 
+And after you don't want to watch this anymore
+call returned function from the addWatch() to remove from watchlist
+
+```kotlin
+removeWatch()
+```
 
 ### Network inspection
 
@@ -96,9 +91,7 @@ Add one of network library integrations to your project dependencies
 ```kotlin
 HttpClient {
     //...
-    install(KtorDebugBoard) {
-        debugBoard(debugBoard)
-    }
+    install(KtorDebugBoard)
 }
 ```
 
@@ -107,7 +100,8 @@ HttpClient {
 ```kotlin
 OkHttpClient
     .Builder()
-    .addInterceptor(OkHttpDebugBoardInterceptor(debugBoard))
+    //...
+    .addInterceptor(OkHttpDebugBoardInterceptor())
     .build()
 ```
 
@@ -116,7 +110,7 @@ Now all your request and response will be available in the Web Panel
 You can send some logs to the log panel here is an example
 
 ```kotlin
-debugBoard.logger.log(
+DebugBoard.Default.logger.log(
     LogData(
         LogLevel.Debug,
         "TAG",
@@ -124,21 +118,38 @@ debugBoard.logger.log(
     )
 )
 ```
+
+#### Jetpack Compose
+
+You can use AddWatch composable function
+to watch a variable inside a composition scope
+it will be automatically removed after Composable exits from the screen
+
+```kotlin
+@Composable
+fun MyPage() {
+    val myUiState =/*...*/
+        AddWatch("MyPageState", myUiState)
+}
+```
+
 #### Timber
+
 If you use [timber library](https://github.com/JakeWharton/timber) you can plant `DebugBoardTree` to add your log data
 into the Web Panel
 in your Application class initial `timber` with
 
 ```kotlin
 Timber.plant(
-    DebugBoardTree(debugBoard),
+    DebugBoardTree(),
     Timber.DebugTree()
 )
 ```
 
 ## Todos
-1. [ ] Add jetpack compose integration and utilities
+
+1. [X] Add jetpack compose integration and utilities
 2. [ ] Improve ktor plugin to handle errors
 3. [ ] Add some screenshots from the Web Panel
-4. [ ] Improve log and add filter in Web Panel
-5. [ ] Add database management
+4. [X] Improve log and add filter in Web Panel
+5. [ ] Add database into panel
