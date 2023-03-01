@@ -1,86 +1,146 @@
 package ir.amirab.debugboard.plugin.network.ktor
 
+import kotlinx.coroutines.*
+
 import io.ktor.client.*
 import io.ktor.client.call.*
+import io.ktor.client.plugins.*
 import io.ktor.client.plugins.api.*
+import io.ktor.client.plugins.observer.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.util.*
+import io.ktor.utils.io.*
+import io.ktor.utils.io.charsets.*
+import io.ktor.utils.io.core.*
 import ir.amirab.debugboard.core.DebugBoard
-import ir.amirab.debugboard.core.plugin.network.NetworkMonitor
-import ir.amirab.debugboard.core.plugin.network.Request
-import ir.amirab.debugboard.core.plugin.network.SuccessResponse
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlin.text.Charsets
 
-private val RequestAndResponseTag = AttributeKey<Any>("RequestAndResponseTag")
+class KtorDebugBoard private constructor(
+    private val debugBoard: DebugBoard
+) {
+    private fun setupRequestCapturing(client: HttpClient) {
+        client.sendPipeline.intercept(HttpSendPipeline.Monitoring) {
+            val transactionBuilder = KtorTransaction(debugBoard)
+            context.attributes.put(RequestAndResponseTransaction, transactionBuilder)
+
+            val response = try {
+                captureRequest(context, transactionBuilder)
+            } catch (_: Throwable) {
+                null
+            }
+
+            try {
+                proceedWith(response ?: subject)
+            } catch (cause: Throwable) {
+                transactionBuilder.onError(cause)
+                throw cause
+            }
+        }
+    }
+
+    private suspend fun captureRequest(
+        request: HttpRequestBuilder,
+        transactionBuilder: KtorTransaction
+    ): OutgoingContent {
+        val content = request.body as OutgoingContent
+
+        transactionBuilder.url = request.url.build().toString()
+        transactionBuilder.method = request.method.value
+        transactionBuilder.requestHeaders = request.headers.entries().associate {
+            it.key to it.value
+        }
+
+        return captureRequestBody(content, transactionBuilder)
+    }
+
+    @OptIn(DelicateCoroutinesApi::class)
+    private suspend fun captureRequestBody(
+        content: OutgoingContent,
+        transactionBuilder: KtorTransaction
+    ): OutgoingContent {
+        val charset = content.contentType?.charset() ?: Charsets.UTF_8
+        val channel = ByteChannel()
+        GlobalScope.launch(Dispatchers.Unconfined) {
+            val text = channel.tryReadText(charset)
+            transactionBuilder.requestBody = text
+            transactionBuilder.onRequestReady()
+        }
+
+        return content.observe(channel)
+    }
+
+
+    @OptIn(InternalAPI::class)
+    private fun setupResponseCapturing(client: HttpClient) {
+        client.receivePipeline.intercept(HttpReceivePipeline.State) { response ->
+
+            val transaction = response.call.attributes[RequestAndResponseTransaction]
+
+            try {
+                val callResponse = response.call.response
+                transaction.responseHeaders = callResponse.headers.entries().associate {
+                    it.key to it.value
+                }
+                transaction.code = callResponse.status.value
+                transaction.description = callResponse.status.description
+
+                proceedWith(subject)
+            } catch (cause: Throwable) {
+                transaction.onError(cause)
+                throw cause
+            }
+        }
+
+        client.responsePipeline.intercept(HttpResponsePipeline.Receive) {
+            try {
+                proceed()
+            } catch (cause: Throwable) {
+                val transaction = context.attributes[RequestAndResponseTransaction]
+                transaction.onError(cause)
+                throw cause
+            }
+        }
+
+        val observer: ResponseHandler = observer@{
+
+            val transaction = it.call.attributes[RequestAndResponseTransaction]
+            try {
+                captureResponseBody(transaction, it.contentType(), it.content)
+            } catch (_: Throwable) {
+            } finally {
+                transaction.onSuccessResponseReady()
+            }
+        }
+
+        ResponseObserver.install(ResponseObserver(observer), client)
+    }
+
+    companion object : HttpClientPlugin<Config, KtorDebugBoard> {
+        override val key: AttributeKey<KtorDebugBoard> = AttributeKey("DebugBoard")
+
+        override fun prepare(block: Config.() -> Unit): KtorDebugBoard {
+            val config = Config().apply(block)
+            return KtorDebugBoard(config.debugBoard)
+        }
+
+        override fun install(plugin: KtorDebugBoard, scope: HttpClient) {
+            plugin.setupRequestCapturing(scope)
+            plugin.setupResponseCapturing(scope)
+        }
+    }
+}
 
 @KtorDsl
-class Config {
+class Config internal constructor() {
     var debugBoard: DebugBoard = DebugBoard.Default
-
-    internal val networkMonitor: NetworkMonitor get() = debugBoard.networkMonitor
 }
 
-val KtorDebugBoard = createClientPlugin("KtorDebugBoard", ::Config) {
-    val monitor = pluginConfig.networkMonitor
-    on(SendingRequest) { request, content ->
-        KtorIntegration.onRequest(monitor, request, content)
-    }
-    onResponse {
-        KtorIntegration.onResponse(monitor, it.call, it)
-    }
-}
-private object KtorIntegration {
-    suspend fun onRequest(
-        monitor: NetworkMonitor,
-        request: HttpRequestBuilder,
-        content: OutgoingContent,
-    ) {
-        val tag = Any()
-        request.attributes.put(RequestAndResponseTag, tag)
-        monitor.onNewRequest(
-            tag,
-            Request(
-                url = request.url.buildString(),
-                method = request.method.value,
-                headers = request.headers.entries().associate { it.key to it.value },
-                body = content.let {
-                    if (it is TextContent) {
-                        it.text
-                    } else null
-                }
-            )
-        )
-    }
-
-    suspend fun onResponse(
-        monitor: NetworkMonitor,
-        call: HttpClientCall,
-        response: HttpResponse,
-    ) {
-        val tag = call.attributes[RequestAndResponseTag]
-        monitor.onResponse(
-            tag,
-            SuccessResponse(
-                code = response.status.value,
-                description = response.status.description,
-                headers = response.headers.entries().associate { it.key to it.value },
-//                body = getResponseBodyAsText(response.contentType(), response.content)
-                body = response.let {
-                    when (it.contentType()) {
-                        ContentType.Application.OctetStream -> "<stream data>"
-                        else -> it.bodyAsText()
-                    }
-                }
-            )
-        )
-    }
-}
-
-
-public fun HttpClientConfig<*>.debugBoardLogging(block: Config.() -> Unit = {}) {
-    install(KtorDebugBoard, block)
-}
-
-
+private val RequestAndResponseTransaction =
+    AttributeKey<KtorTransaction>("RequestAndResponseTransaction")

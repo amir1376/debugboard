@@ -7,25 +7,26 @@ import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.singleWindowApplication
 import io.github.serpro69.kfaker.Faker
 import io.ktor.client.*
+import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
-import ir.amirab.debugboard.plugin.network.okhttp.OkHttpDebugBoardInterceptor
-import kotlinx.coroutines.*
-import kotlinx.serialization.Serializable
-import okhttp3.OkHttpClient
-import ir.amirab.debugboard.core.DebugBoard
 import ir.amirab.debugboard.DebugBoardBackend
-import project.LocalDebugBoard
+import ir.amirab.debugboard.core.DebugBoard
 import ir.amirab.debugboard.core.plugin.logger.LogData
 import ir.amirab.debugboard.core.plugin.logger.LogLevel
-import ir.amirab.debugboard.plugin.watcher.flow.addWatch
 import ir.amirab.debugboard.plugin.network.ktor.KtorDebugBoard
+import ir.amirab.debugboard.plugin.network.okhttp.OkHttpDebugBoardInterceptor
 import ir.amirab.debugboard.plugin.watcher.compose.AddWatch
+import ir.amirab.debugboard.plugin.watcher.flow.addWatch
 import ir.amirab.debugboard.plugin.watcher.period.addWatch
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import kotlinx.serialization.Serializable
+import okhttp3.OkHttpClient
+import project.LocalDebugBoard
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -70,7 +71,7 @@ class AClass {
 fun main() {
     DebugBoardBackend().startWithDefaultServer()
     addVariableAndUpdate()
-//    sendRequestRandomely()
+    sendRequestRandomely()
 //    addLogRandomely()
     singleWindowApplication(
         title = "Code Viewer",
@@ -150,19 +151,20 @@ fun addVariableAndUpdate() {
             delay(5000)
         }
     }
-    var pp="hello"
-    addWatch("periodicSample",
-        period=1000
-    ){ pp }
+    var pp = "hello"
+    addWatch(
+        "periodicSample",
+        period = 1000
+    ) { pp }
     scope.launch {
-        var count=0
-        while (isActive){
-            pp="${count++}"
+        var count = 0
+        while (isActive) {
+            pp = "${count++}"
             delay(10)
         }
     }
 
-    addWatch<String?>("flowSample",null, flow {
+    addWatch<String?>("flowSample", null, flow {
         delay(10000)
         emit("after 10 seconds I will be there")
     })
@@ -176,29 +178,30 @@ fun addVariableAndUpdate() {
 @Composable
 fun RenderScreen() {
     Scaffold {
-        val (count,setCount)=remember{
+        val (count, setCount) = remember {
             mutableStateOf(1)
         }
         Column {
-            Row{
-                Button({setCount(count+1)}){
+            Row {
+                Button({ setCount(count + 1) }) {
                     Text("+")
                 }
-                Button({setCount(count-1)}){
+                Button({ setCount(count - 1) }) {
                     Text("-")
                 }
             }
-            repeat(count){
+            repeat(count) {
                 TextFieldView(it)
             }
         }
 
     }
 }
+
 @Composable
-fun TextFieldView(index:Int){
-    val (text,setText) = remember { mutableStateOf("") }
-    AddWatch("text$index",text)
+fun TextFieldView(index: Int) {
+    val (text, setText) = remember { mutableStateOf("") }
+    AddWatch("text$index", text)
     TextField(text, onValueChange = {
         setText(it)
     })

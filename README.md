@@ -149,7 +149,7 @@ Timber.plant(
 ## Todos
 
 1. [X] Add jetpack compose integration and utilities
-2. [ ] Improve ktor plugin to handle errors
+2. [X] Improve ktor plugin to handle errors
 3. [ ] Add some screenshots from the Web Panel
 4. [X] Improve log and add filter in Web Panel
 5. [ ] Add database into panel
