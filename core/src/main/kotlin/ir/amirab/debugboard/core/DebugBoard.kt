@@ -1,8 +1,8 @@
 package ir.amirab.debugboard.core
 
-import ir.amirab.debugboard.core.plugins.Logger
-import ir.amirab.debugboard.core.plugins.NetworkMonitor
-import ir.amirab.debugboard.core.plugins.watchable.VariableWatcher
+import ir.amirab.debugboard.core.plugin.logger.Logger
+import ir.amirab.debugboard.core.plugin.network.NetworkMonitor
+import ir.amirab.debugboard.core.plugin.watcher.VariableWatcher
 
 class DebugBoard {
     companion object {

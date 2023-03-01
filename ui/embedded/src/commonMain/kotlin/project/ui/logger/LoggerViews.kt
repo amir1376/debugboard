@@ -13,14 +13,14 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import project.LocalDebugBoard
-import ir.amirab.debugboard.core.plugins.LogData
-import ir.amirab.debugboard.core.plugins.Logger
+import ir.amirab.debugboard.core.plugin.logger.LogData
+import ir.amirab.debugboard.core.plugin.logger.Logger
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import ir.amirab.debugboard.core.plugins.LogLevel
+import ir.amirab.debugboard.core.plugin.logger.LogLevel
 import java.util.Date
 
 @Composable

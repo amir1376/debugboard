@@ -7,8 +7,8 @@ import okhttp3.Response
 import okhttp3.internal.http.promisesBody
 import okio.*
 import ir.amirab.debugboard.core.DebugBoard
-import ir.amirab.debugboard.core.plugins.FailResponse
-import ir.amirab.debugboard.core.plugins.SuccessResponse
+import ir.amirab.debugboard.core.plugin.network.FailResponse
+import ir.amirab.debugboard.core.plugin.network.SuccessResponse
 import java.lang.Exception
 import java.nio.charset.Charset
 
@@ -42,7 +42,7 @@ internal class OkhttpRequestResponseProcessor(
         }
         debugBoard.networkMonitor.onNewRequest(
             tag = tag,
-            request = ir.amirab.debugboard.core.plugins.Request(
+            request = ir.amirab.debugboard.core.plugin.network.Request(
                 headers = reqHeaders,
                 method = reqMethod,
                 url = reqUrl,

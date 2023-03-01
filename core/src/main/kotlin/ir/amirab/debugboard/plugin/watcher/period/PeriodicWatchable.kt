@@ -1,10 +1,8 @@
-package ir.amirab.debugboard.extentions
+package ir.amirab.debugboard.plugin.watcher.period
 
 import ir.amirab.debugboard.core.DebugBoard
-import ir.amirab.debugboard.core.plugins.watchable.BaseWatchable
-import ir.amirab.debugboard.core.plugins.watchable.Watchable
+import ir.amirab.debugboard.core.plugin.watcher.BaseWatchable
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.flow
 
 const val DefaultDuration = 500L
 
@@ -37,5 +35,5 @@ fun <T> addWatch(
     getValue: () -> T,
 ) = run {
     val watchable = PeriodicWatchable(name, getValue, period)
-    addWatch(watchable, debugBoard)
+    ir.amirab.debugboard.core.plugin.watcher.addWatch(watchable, debugBoard)
 }

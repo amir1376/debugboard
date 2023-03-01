@@ -1,4 +1,4 @@
-package ir.amirab.debugboard.core.plugins.watchable
+package ir.amirab.debugboard.core.plugin.watcher
 
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties

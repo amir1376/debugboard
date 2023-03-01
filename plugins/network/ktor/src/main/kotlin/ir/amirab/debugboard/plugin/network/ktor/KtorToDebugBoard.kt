@@ -2,18 +2,16 @@ package ir.amirab.debugboard.plugin.network.ktor
 
 import io.ktor.client.*
 import io.ktor.client.call.*
-import io.ktor.client.plugins.*
 import io.ktor.client.plugins.api.*
-import io.ktor.client.plugins.observer.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.util.*
 import ir.amirab.debugboard.core.DebugBoard
-import ir.amirab.debugboard.core.plugins.NetworkMonitor
-import ir.amirab.debugboard.core.plugins.Request
-import ir.amirab.debugboard.core.plugins.SuccessResponse
+import ir.amirab.debugboard.core.plugin.network.NetworkMonitor
+import ir.amirab.debugboard.core.plugin.network.Request
+import ir.amirab.debugboard.core.plugin.network.SuccessResponse
 
 private val RequestAndResponseTag = AttributeKey<Any>("RequestAndResponseTag")
 

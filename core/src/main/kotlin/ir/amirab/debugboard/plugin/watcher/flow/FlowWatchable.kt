@@ -1,8 +1,10 @@
-package ir.amirab.debugboard.extentions
+package ir.amirab.debugboard.plugin.watcher.flow
 
 import ir.amirab.debugboard.core.DebugBoard
-import ir.amirab.debugboard.core.plugins.watchable.BaseWatchable
-import ir.amirab.debugboard.core.plugins.watchable.Watchable
+import ir.amirab.debugboard.core.plugin.watcher.BaseWatchable
+import ir.amirab.debugboard.core.plugin.watcher.Dispose
+import ir.amirab.debugboard.core.plugin.watcher.Watchable
+import ir.amirab.debugboard.core.plugin.watcher.addWatch
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
@@ -39,16 +41,16 @@ fun <T> addWatch(
     initialValue: T,
     flow: Flow<T>,
     debugBoard: DebugBoard = DebugBoard.Default,
-) = run {
+): Dispose {
     val watchable = FlowWatchable(name, initialValue, flow)
-    addWatch(watchable, debugBoard)
+    return addWatch(watchable, debugBoard)
 }
 
 fun <T> addWatch(
     name: String,
     stateflow: StateFlow<T>,
     debugBoard: DebugBoard = DebugBoard.Default,
-) = run {
+): Dispose {
     val watchable = StateFlowWatchable(name, stateflow)
-    addWatch(watchable, debugBoard)
+    return addWatch(watchable, debugBoard)
 }

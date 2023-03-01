@@ -20,9 +20,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import ir.amirab.debugboard.core.plugins.FailResponse
-import ir.amirab.debugboard.core.plugins.NetworkData
-import ir.amirab.debugboard.core.plugins.SuccessResponse
+import ir.amirab.debugboard.core.plugin.network.FailResponse
+import ir.amirab.debugboard.core.plugin.network.NetworkData
+import ir.amirab.debugboard.core.plugin.network.SuccessResponse
 import project.widgets.Expandable
 
 enum class RecordInfoSection {

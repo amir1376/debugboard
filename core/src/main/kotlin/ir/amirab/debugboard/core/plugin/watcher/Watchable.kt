@@ -1,4 +1,4 @@
-package ir.amirab.debugboard.core.plugins.watchable
+package ir.amirab.debugboard.core.plugin.watcher
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

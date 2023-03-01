@@ -1,4 +1,4 @@
-package ir.amirab.debugboard.core.plugins
+package ir.amirab.debugboard.core.plugin.logger
 
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow

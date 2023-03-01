@@ -1,7 +1,6 @@
-package ir.amirab.debugboard.extentions
+package ir.amirab.debugboard.core.plugin.watcher
 
 import ir.amirab.debugboard.core.DebugBoard
-import ir.amirab.debugboard.core.plugins.watchable.Watchable
 
 typealias Dispose = () -> Unit
 

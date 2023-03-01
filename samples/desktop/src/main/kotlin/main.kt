@@ -19,11 +19,12 @@ import okhttp3.OkHttpClient
 import ir.amirab.debugboard.core.DebugBoard
 import ir.amirab.debugboard.DebugBoardBackend
 import project.LocalDebugBoard
-import ir.amirab.debugboard.core.plugins.LogData
-import ir.amirab.debugboard.core.plugins.LogLevel
-import ir.amirab.debugboard.extentions.addWatch
+import ir.amirab.debugboard.core.plugin.logger.LogData
+import ir.amirab.debugboard.core.plugin.logger.LogLevel
+import ir.amirab.debugboard.plugin.watcher.flow.addWatch
 import ir.amirab.debugboard.plugin.network.ktor.KtorDebugBoard
 import ir.amirab.debugboard.plugin.watcher.compose.AddWatch
+import ir.amirab.debugboard.plugin.watcher.period.addWatch
 import kotlinx.coroutines.flow.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
