@@ -1,4 +1,4 @@
-package ir.amirab.debugboard.utils
+package ir.amirab.debugboard.backend.utils
 
 import java.net.Inet4Address
 import java.net.NetworkInterface

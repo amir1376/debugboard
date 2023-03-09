@@ -31,6 +31,7 @@ tasks {
 
 dependencies {
     api(project(":core"))
+    implementation(project(":backend:shared-api-models"))
 
     implementation(libs.kotlin.serialization.core)
     implementation(libs.kotlin.serialization.json)

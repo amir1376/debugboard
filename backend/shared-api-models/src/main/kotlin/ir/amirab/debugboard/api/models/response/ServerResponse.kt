@@ -1,23 +1,23 @@
-package ir.amirab.debugboard.models.response
+package ir.amirab.debugboard.api.models.response
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import ir.amirab.debugboard.models.ApiLogData
-import ir.amirab.debugboard.models.ApiNetworkData
-import ir.amirab.debugboard.models.ApiVariableInfo
+import ir.amirab.debugboard.api.models.ApiLogData
+import ir.amirab.debugboard.api.models.ApiNetworkData
+import ir.amirab.debugboard.api.models.ApiVariableInfo
 
 @Serializable
-internal sealed interface WebsocketServerResponse
+sealed interface WebsocketServerResponse
 
 @Serializable
 @SerialName("VariableWatcher.onNewData")
-internal data class VariableWatcherOnNewData(
+data class VariableWatcherOnNewData(
     val value: List<ApiVariableInfo>
 ) : WebsocketServerResponse
 
 @Serializable
 @SerialName("NetworkWatcher.onNewData")
-internal data class NetworkWatcherOnNewData(
+data class NetworkWatcherOnNewData(
     val value: List<ApiNetworkData>,
     val isThisInitialValue: Boolean,
 ) : WebsocketServerResponse
@@ -25,13 +25,13 @@ internal data class NetworkWatcherOnNewData(
 
 @Serializable
 @SerialName("Logger.onNewData")
-internal data class LoggerOnNewData(
+data class LoggerOnNewData(
     val value: List<ApiLogData>,
     val isThisInitialValue: Boolean,
 ) : WebsocketServerResponse
 
 @Serializable
 @SerialName("message")
-internal data class MessageFromServer(
+data class MessageFromServer(
     val value: String
 ) : WebsocketServerResponse

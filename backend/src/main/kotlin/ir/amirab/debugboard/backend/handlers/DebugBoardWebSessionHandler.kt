@@ -1,4 +1,4 @@
-package ir.amirab.debugboard.handlers
+package ir.amirab.debugboard.backend.handlers
 
 import io.ktor.websocket.*
 import kotlinx.coroutines.Job
@@ -9,27 +9,27 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import ir.amirab.debugboard.core.DebugBoard
-import ir.amirab.debugboard.backend.commands.LoggerSubscribe
-import ir.amirab.debugboard.backend.commands.LoggerUnSubscribe
-import ir.amirab.debugboard.backend.commands.NetworkSubscribe
-import ir.amirab.debugboard.backend.commands.NetworkUnSubscribe
-import ir.amirab.debugboard.backend.commands.VariableWatcherSetOpenPaths
-import ir.amirab.debugboard.backend.commands.WebsocketClientCommand
+import ir.amirab.debugboard.api.models.commands.LoggerSubscribe
+import ir.amirab.debugboard.api.models.commands.LoggerUnSubscribe
+import ir.amirab.debugboard.api.models.commands.NetworkSubscribe
+import ir.amirab.debugboard.api.models.commands.NetworkUnSubscribe
+import ir.amirab.debugboard.api.models.commands.VariableWatcherSetOpenPaths
+import ir.amirab.debugboard.api.models.commands.WebsocketClientCommand
 import ir.amirab.debugboard.core.plugin.logger.LogData
 import ir.amirab.debugboard.core.plugin.network.FailResponse
 import ir.amirab.debugboard.core.plugin.network.NetworkData
 import ir.amirab.debugboard.core.plugin.network.SuccessResponse
 import ir.amirab.debugboard.core.plugin.watcher.WatcherItem
-import ir.amirab.debugboard.models.ApiFailResponse
-import ir.amirab.debugboard.models.ApiLogData
-import ir.amirab.debugboard.models.ApiNetworkData
-import ir.amirab.debugboard.models.ApiRequest
-import ir.amirab.debugboard.models.ApiSuccessResponse
-import ir.amirab.debugboard.models.ApiVariableInfo
-import ir.amirab.debugboard.models.response.LoggerOnNewData
-import ir.amirab.debugboard.models.response.NetworkWatcherOnNewData
-import ir.amirab.debugboard.models.response.VariableWatcherOnNewData
-import ir.amirab.debugboard.models.response.WebsocketServerResponse
+import ir.amirab.debugboard.api.models.ApiFailResponse
+import ir.amirab.debugboard.api.models.ApiLogData
+import ir.amirab.debugboard.api.models.ApiNetworkData
+import ir.amirab.debugboard.api.models.ApiRequest
+import ir.amirab.debugboard.api.models.ApiSuccessResponse
+import ir.amirab.debugboard.api.models.ApiVariableInfo
+import ir.amirab.debugboard.api.models.response.LoggerOnNewData
+import ir.amirab.debugboard.api.models.response.NetworkWatcherOnNewData
+import ir.amirab.debugboard.api.models.response.VariableWatcherOnNewData
+import ir.amirab.debugboard.api.models.response.WebsocketServerResponse
 import java.lang.Exception
 
 internal class DebugBoardWebSessionHandler(

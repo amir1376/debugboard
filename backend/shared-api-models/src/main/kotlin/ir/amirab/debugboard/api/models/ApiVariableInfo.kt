@@ -1,10 +1,10 @@
-package ir.amirab.debugboard.models
+package ir.amirab.debugboard.api.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class ApiVariableInfo(
+data class ApiVariableInfo(
     val name: String,
     val type: String,
     val value: String,
@@ -12,14 +12,14 @@ internal data class ApiVariableInfo(
 )
 
 @Serializable
-internal data class ApiNetworkData(
+data class ApiNetworkData(
     val tag: String,
     val request: ApiRequest,
     val response: ApiNetworkResponse?,
 )
 
 @Serializable
-internal data class ApiRequest(
+data class ApiRequest(
     val url: String,
     val method: String,
     val headers: Map<String, List<String>>,
@@ -27,17 +27,17 @@ internal data class ApiRequest(
 )
 
 @Serializable
-internal sealed interface ApiNetworkResponse
+sealed interface ApiNetworkResponse
 
 @Serializable
 @SerialName("fail")
-internal data class ApiFailResponse(
+data class ApiFailResponse(
     val cause: String
 ) : ApiNetworkResponse
 
 @Serializable
 @SerialName("success")
-internal data class ApiSuccessResponse(
+data class ApiSuccessResponse(
     val code: Int,
     val description: String,
     val headers: Map<String, List<String>>,
@@ -45,7 +45,7 @@ internal data class ApiSuccessResponse(
 ) : ApiNetworkResponse
 
 @Serializable
-internal data class ApiLogData(
+data class ApiLogData(
     val tag: String,
     val level: String,
     val timestamp: Long,
