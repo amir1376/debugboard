@@ -4,3 +4,4 @@
 build/
 .env
 local.properties
+excluded/
