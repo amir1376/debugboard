@@ -2,7 +2,7 @@
 
 ## Debug Board
 
-Runtime debug utils for kotlin that has a web panel
+Runtime debug utilities for kotlin that has a web panel
 
 <img alt="logo" src="static/logo.svg"/>
 
