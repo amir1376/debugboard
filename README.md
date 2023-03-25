@@ -1,8 +1,8 @@
 
-<h1 align="center">
-<img align="center" width="75" alt="logo" src="static/logo.svg">
-Debug Board
-</h1>
+<p align="center">
+<img width="75" alt="logo" src="static/logo.svg"><img>
+<h1 align="center">Debug Board</h1>
+</p>
 <p align="center">
 Runtime debug utilities for kotlin that has a web panel
 <br><br>
