@@ -1,10 +1,17 @@
-[![](https://jitpack.io/v/amir1376/debugboard.svg)](https://jitpack.io/#amir1376/debugboard)
 
-## Debug Board
-
+<h1 align="center">
+<img align="center" width="75" alt="logo" src="static/logo.svg">
+Debug Board
+</h1>
+<p align="center">
 Runtime debug utilities for kotlin that has a web panel
+<br><br>
+<a href="https://jitpack.io/#amir1376/debugboard">
+<img src="https://jitpack.io/v/amir1376/debugboard.svg">
+</a>
+</p>
 
-<img alt="logo" src="static/logo.svg"/>
+-------
 
 ## Features
 
