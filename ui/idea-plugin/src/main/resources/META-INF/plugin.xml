@@ -1,0 +1,13 @@
+<idea-plugin>
+    <name>Debug Board</name>
+    <vendor>AmirAb</vendor>
+    <depends>com.intellij.modules.platform</depends>
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow
+                anchor="bottom"
+                icon="/icons/toolWindow.svg"
+                factoryClass="ir.amirab.debugboard.ideaplugin.views.DebugBoardToolWindowFactory"
+                id="Debug Board">
+        </toolWindow>
+    </extensions>
+</idea-plugin>

@@ -37,4 +37,13 @@ subprojects {
             }
         }
     }
+    tasks{
+        withType<JavaCompile> {
+            sourceCompatibility = "11"
+            targetCompatibility = "11"
+        }
+        withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+            kotlinOptions.jvmTarget = "11"
+        }
+    }
 }

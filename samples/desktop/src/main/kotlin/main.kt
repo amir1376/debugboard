@@ -13,7 +13,7 @@ import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
-import ir.amirab.debugboard.DebugBoardBackend
+import ir.amirab.debugboard.backend.DebugBoardBackend
 import ir.amirab.debugboard.core.DebugBoard
 import ir.amirab.debugboard.core.plugin.logger.LogData
 import ir.amirab.debugboard.core.plugin.logger.LogLevel

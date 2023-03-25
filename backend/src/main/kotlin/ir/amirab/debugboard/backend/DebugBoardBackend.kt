@@ -1,4 +1,4 @@
-package ir.amirab.debugboard
+package ir.amirab.debugboard.backend
 
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
@@ -10,8 +10,8 @@ import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
 import ir.amirab.debugboard.core.DebugBoard
 import kotlinx.serialization.json.Json
-import ir.amirab.debugboard.handlers.DebugBoardWebSessionHandler
-import ir.amirab.debugboard.utils.getLocalIpAddress
+import ir.amirab.debugboard.backend.handlers.DebugBoardWebSessionHandler
+import ir.amirab.debugboard.backend.utils.getLocalIpAddress
 import java.time.Duration
 import java.util.logging.Logger
 import kotlin.concurrent.thread

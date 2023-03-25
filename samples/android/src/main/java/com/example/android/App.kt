@@ -1,8 +1,7 @@
 package com.example.android
 
 import android.app.Application
-import android.util.Log
-import ir.amirab.debugboard.DebugBoardBackend
+import ir.amirab.debugboard.backend.DebugBoardBackend
 import ir.amirab.debugboard.plugin.logger.timber.DebugBoardTree
 import timber.log.Timber
 
