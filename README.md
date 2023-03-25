@@ -159,3 +159,4 @@ Timber.plant(
 3. [X] Add some screenshots from the Web Panel
 4. [X] Improve log and add filter in Web Panel
 5. [ ] Add database into panel
+6. [ ] Add Intellij idea plugin (an alternative for web panel)
