@@ -4,7 +4,7 @@
 <h1 align="center">Debug Board</h1>
 </p>
 <p align="center">
-Runtime debug utilities for kotlin that has a web panel
+Runtime debug utilities for kotlin that has panel for both IDE and Web
 <br><br>
 <a href="https://jitpack.io/#amir1376/debugboard">
 <img src="https://jitpack.io/v/amir1376/debugboard.svg">
@@ -18,7 +18,8 @@ Runtime debug utilities for kotlin that has a web panel
 - Watch variables when your app is running
 - Inspect network request/response
 - Show logs
-- Directly in your browser
+- Has [Plugin](https://plugins.jetbrains.com/plugin/21331-debug-board) for IntelliJ Idea / Android Studio
+- Or Directly in your browser
 
 ## Setup
 
@@ -39,7 +40,7 @@ dependencies {
     val version = "x.y.z" //see the last version above
     //core library
     implementation("com.github.amir1376.debugboard:core:$version")
-    //backend for Web Panel
+    //backend (for Web Panel / IntelliJ Plugin)
     implementation("com.github.amir1376.debugboard:backend:$version")
     //optional integrations
     //add one of these integrations for network inspection
@@ -54,15 +55,17 @@ dependencies {
 
 ## Usage
 
-Start embedded Web Server to access the Web Panel
-
-###### Note: server listens on port 8000 by default
-
-(also server address will be logged in `STDOUT`)
+Start embedded Web Server to access the (Web/Plugin) Panel
 
 ```kotlin
 DebugBoardBackend().startWithDefaultServer()
 ```
+
+> Server listens on port 8000 by default
+
+> If you are using plugin use `ws://` instead of `http://` in address box for access the panel
+
+> Server address will be logged in `STDOUT` too
 
 ### Watch a variable
 
@@ -165,5 +168,5 @@ Timber.plant(
 2. [X] Improve ktor plugin to handle errors
 3. [X] Add some screenshots from the Web Panel
 4. [X] Improve log and add filter in Web Panel
-5. [ ] Add database into panel
-6. [ ] Add Intellij idea plugin (an alternative for web panel)
+5. [X] Add Intellij Idea Plugin
+6. [ ] Add database into panel
