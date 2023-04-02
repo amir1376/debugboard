@@ -1,13 +1,13 @@
 
-<p align="center">
-<img width="75" alt="logo" src="static/logo.svg"><img>
-<h1 align="center">Debug Board</h1>
+<p style="text-align:center">
+<img width="75" alt="logo" src="static/logo.svg">
+<h1 style="text-align:center">Debug Board</h1>
 </p>
-<p align="center">
+<p style="text-align:center;color">
 Runtime debug utilities for kotlin that has panel for both IDE and Web
 <br><br>
 <a href="https://jitpack.io/#amir1376/debugboard">
-<img src="https://jitpack.io/v/amir1376/debugboard.svg">
+<img alt="Debug Board Jitpack" src="https://jitpack.io/v/amir1376/debugboard.svg">
 </a>
 </p>
 
@@ -18,7 +18,7 @@ Runtime debug utilities for kotlin that has panel for both IDE and Web
 - Watch variables when your app is running
 - Inspect network request/response
 - Show logs
-- Has [Plugin](https://plugins.jetbrains.com/plugin/21331-debug-board) for IntelliJ Idea / Android Studio
+- Has a [Plugin](https://plugins.jetbrains.com/plugin/21331-debug-board) for IntelliJ Idea / Android Studio
 - Or Directly in your browser
 
 ## Setup
@@ -66,6 +66,20 @@ DebugBoardBackend().startWithDefaultServer()
 > If you are using plugin use `ws://` instead of `http://` in address box for access the panel
 
 > Server address will be logged in `STDOUT` too
+
+<details>
+<summary>Note for android users</summary>
+
+Make sure you have declared `Internet permission` in your application's `AndroidManifest.xml`
+
+```xml
+
+<uses-permission android:name="android.permission.INTERNET"/>
+```
+
+otherwise android does not allow you to create server
+
+</details>
 
 ### Watch a variable
 
