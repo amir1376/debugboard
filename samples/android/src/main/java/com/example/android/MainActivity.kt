@@ -13,6 +13,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import ir.amirab.debugboard.plugin.watcher.compose.AddWatch
 
+/**
+ * A simple android activity to use Debug Board to watch compose state variables
+ * for see more features please see desktop sample
+ */
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -34,10 +34,14 @@ dependencies {
     implementation(libs.compose.material)
     implementation(libs.androidx.activity.compose)
 
+    /**
+     * this is my multimodule dependencies for debug board
+     * don't copy this for yours
+     * for proper dependencies please see README.md file in GitHub
+     */
     implementation(project(":core"))
     implementation(project(":plugins:network:ktor"))
     implementation(project(":plugins:logger:timber"))
     implementation(project(":plugins:watcher:compose"))
-
     implementation(project(":backend"))
 }
