@@ -24,27 +24,37 @@ import ir.amirab.debugboard.plugin.watcher.flow.addWatch
 import ir.amirab.debugboard.plugin.watcher.period.addWatch
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.serialization.Serializable
 import okhttp3.OkHttpClient
-import project.LocalDebugBoard
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 import kotlin.time.Duration.Companion.seconds
 
-val scope = CoroutineScope(Dispatchers.Default)
-val faker = Faker()
-val client = HttpClient {
+private val scope = CoroutineScope(Dispatchers.Default)
+
+/**
+ * for generate fake data
+ */
+private val faker = Faker()
+
+/**
+ * Ktor client with Debug Board plugin
+ */
+private val client = HttpClient {
     install(ContentNegotiation) {
         json()
     }
     install(Logging) {
-        this.logger=Logger.SIMPLE
+        this.logger = Logger.SIMPLE
     }
     install(KtorDebugBoard)
 }
-val retrofit = Retrofit
+
+/**
+ * retrofit with Okhttp client with Debug Board interceptor
+ */
+private val retrofit = Retrofit
     .Builder()
     .baseUrl("https://jsonplaceholder.typicode.com")
     .addConverterFactory(GsonConverterFactory.create())
@@ -62,6 +72,9 @@ interface QuestionApi {
     ): String
 }
 
+/**
+ * sample class to watch its state
+ */
 class AClass {
     var a: String = "ab"
     var b = listOf<String>("a", "b")
@@ -69,26 +82,28 @@ class AClass {
 }
 
 fun main() {
+    // start debug board backend server on this device
     DebugBoardBackend().startWithDefaultServer()
+
     addVariableAndUpdate()
+
     sendRequestRandomely()
-//    addLogRandomely()
+
+    addRandomLogs()
+
+    // A simple jetpack compose application that you watch your states
     singleWindowApplication(
-        title = "Code Viewer",
+        title = "Debug Board Sample",
         state = WindowState(width = 400.dp, height = 768.dp),
     ) {
         MaterialTheme(darkColors()) {
-            CompositionLocalProvider(
-                LocalDebugBoard provides DebugBoard.Default
-            ) {
-                RenderScreen()
-            }
+            RenderScreen()
         }
     }
 }
 
 
-fun addLogRandomely() {
+fun addRandomLogs() {
     scope.launch {
         while (isActive) {
             delay(5.seconds)
@@ -109,25 +124,12 @@ fun addLogRandomely() {
     }
 }
 
-@Serializable
-data class ZZ(
-    val x: String,
-)
-
 fun sendRequestRandomely() {
     val api = retrofit.create(QuestionApi::class.java)
-
 
     scope.launch {
         while (isActive) {
             delay(2000)
-//            runCatching {
-//                val randomNumber = (1..10).random().toString()
-//                api.getQuestions(randomNumber)
-//            }.onFailure {
-//                it.printStackTrace()
-//            }
-            delay(1000)
             kotlin.runCatching {
                 val randomNumber = (1..10).random().toString()
                 client.get("https://jsonplaceholder.typicode.com/todos/$randomNumber")
@@ -138,12 +140,14 @@ fun sendRequestRandomely() {
     }
 }
 
+/**
+ * These are some sample to demonstrate how you can watch your variables
+ * You can add your own by implementing [Watchable] interface
+ **/
 fun addVariableAndUpdate() {
+
+    // watch any stateflow
     val stateFlow = MutableStateFlow(emptyList<String>())
-    val aClass = MutableStateFlow(AClass())
-
-
-
     scope.launch {
         var counter = 0
         while (isActive) {
@@ -151,6 +155,18 @@ fun addVariableAndUpdate() {
             delay(5000)
         }
     }
+
+    //another sample stateflow with any instance
+    val aClass = MutableStateFlow(AClass())
+    addWatch("anyInstance", aClass)
+
+    // a cold flow can be added to watch, but it needs to have an initial value
+    addWatch<String?>("flowSample", null, flow {
+        delay(10.seconds)
+        emit("after 10 seconds I will be there")
+    })
+
+    //simple variable which is not an observable we can use a periodic approach to watch that value
     var pp = "hello"
     addWatch(
         "periodicSample",
@@ -163,18 +179,11 @@ fun addVariableAndUpdate() {
             delay(10)
         }
     }
-
-    addWatch<String?>("flowSample", null, flow {
-        delay(10000)
-        emit("after 10 seconds I will be there")
-    })
-
-    addWatch("stateFlowSample", stateFlow)
-
-    addWatch("anyInstance", aClass)
 }
 
-
+/**
+ * Render a simple compose app which add text fields and add watch their values
+ */
 @Composable
 fun RenderScreen() {
     Scaffold {
@@ -194,17 +203,15 @@ fun RenderScreen() {
                 TextFieldView(it)
             }
         }
-
     }
 }
 
 @Composable
 fun TextFieldView(index: Int) {
     val (text, setText) = remember { mutableStateOf("") }
+    //add watch / also remove watch automatically when composable exits from ui tree
     AddWatch("text$index", text)
     TextField(text, onValueChange = {
         setText(it)
     })
 }
-
-//        DebagBoardView()
