@@ -19,7 +19,7 @@ val projectTargetSdk by ext(33)
 
 allprojects {
     group = "ir.amirab.debugboard"
-    version = "0.3.0"
+    version = "0.3.1"
     repositories {
         google()
         mavenCentral()

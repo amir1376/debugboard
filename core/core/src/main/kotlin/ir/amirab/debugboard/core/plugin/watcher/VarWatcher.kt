@@ -3,7 +3,7 @@ package ir.amirab.debugboard.core.plugin.watcher
 import kotlinx.coroutines.flow.*
 
 
-class VariableWatcher:IVariableWatcher {
+class VariableWatcher : IVariableWatcher {
     override val watchables: MutableStateFlow<List<Watchable<*>>> = MutableStateFlow(emptyList<Watchable<*>>())
 
     override fun addWatch(watchable: Watchable<*>) {
@@ -24,7 +24,11 @@ class VariableWatcher:IVariableWatcher {
         val names = p.map {
             it.name
         }
-        val x = combine(
+        //combine function does not emit when [flows] variable is empty! we manually emit an empty list instead
+        if (flows.isEmpty()) {
+            return flowOf(emptyList())
+        }
+        return combine(
             flows = flows
         ) {
             it.zip(names).map { pair: Pair<Any?, String> ->
@@ -34,8 +38,6 @@ class VariableWatcher:IVariableWatcher {
                 )
             }
         }
-
-        return x
     }
 
 
