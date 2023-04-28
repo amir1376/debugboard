@@ -18,6 +18,6 @@ publishing {
 }
 
 dependencies {
-    implementation(project(":core"))
+    api(project(":core:core"))
     implementation(libs.ktor.client.core)
 }

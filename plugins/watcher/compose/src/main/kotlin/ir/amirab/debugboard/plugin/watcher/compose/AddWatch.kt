@@ -6,7 +6,6 @@ import androidx.compose.runtime.remember
 import ir.amirab.debugboard.core.DebugBoard
 import ir.amirab.debugboard.core.plugin.watcher.ObservableWatchable
 import ir.amirab.debugboard.core.plugin.watcher.addWatch
-import ir.amirab.debugboard.plugin.watcher.flow.addWatch
 
 @Composable
 fun <T> AddWatch(

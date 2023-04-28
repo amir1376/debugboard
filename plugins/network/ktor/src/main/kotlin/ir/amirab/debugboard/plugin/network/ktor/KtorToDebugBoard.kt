@@ -1,11 +1,7 @@
 package ir.amirab.debugboard.plugin.network.ktor
 
-import kotlinx.coroutines.*
-
 import io.ktor.client.*
-import io.ktor.client.call.*
 import io.ktor.client.plugins.*
-import io.ktor.client.plugins.api.*
 import io.ktor.client.plugins.observer.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
@@ -13,8 +9,6 @@ import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.util.*
 import io.ktor.utils.io.*
-import io.ktor.utils.io.charsets.*
-import io.ktor.utils.io.core.*
 import ir.amirab.debugboard.core.DebugBoard
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers

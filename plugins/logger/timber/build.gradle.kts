@@ -20,6 +20,6 @@ android {
     }
 }
 dependencies {
-    implementation(project(":core"))
-    implementation(libs.timber)
+    api(project(":core:core"))
+    api(libs.timber)
 }

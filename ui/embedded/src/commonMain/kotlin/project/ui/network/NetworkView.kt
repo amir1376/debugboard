@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import ir.amirab.debugboard.core.plugin.*
 import ir.amirab.debugboard.core.plugin.network.*
 import project.LocalDebugBoard
 

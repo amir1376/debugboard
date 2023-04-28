@@ -39,19 +39,33 @@ dependencies {
     //...
     val version = "x.y.z" //see the last version above
     //core library
-    implementation("com.github.amir1376.debugboard:core:$version")
+    debugImplementation("com.github.amir1376.debugboard:core:$version")
+    releaseImplementation("com.github.amir1376.debugboard:core-no-op:$version")
+    
     //backend (for Web Panel / IntelliJ Plugin)
-    implementation("com.github.amir1376.debugboard:backend:$version")
+    debugImplementation("com.github.amir1376.debugboard:backend:$version")
+    releaseImplementation("com.github.amir1376.debugboard:backend-no-op:$version")
     //optional integrations
     //add one of these integrations for network inspection
-    implementation("com.github.amir1376.debugboard:ktor:$version")
-    implementation("com.github.amir1376.debugboard:okhttp:$version")
+    debugImplementation("com.github.amir1376.debugboard:ktor:$version")
+    releaseImplementation("com.github.amir1376.debugboard:ktor-no-op:$version")
+    debugImplementation("com.github.amir1376.debugboard:okhttp:$version")
+    releaseImplementation("com.github.amir1376.debugboard:okhttp-no-op:$version")
     // integration for android timber library
-    implementation("com.github.amir1376.debugboard:timber:$version")
+    debugImplementation("com.github.amir1376.debugboard:timber:$version")
+    releaseImplementation("com.github.amir1376.debugboard:timber-no-op:$version")
     // integration for jetpack compose library 
-    implementation("com.github.amir1376.debugboard:compose:$version")
+    debugImplementation("com.github.amir1376.debugboard:compose:$version")
+    releaseImplementation("com.github.amir1376.debugboard:compose-no-op:$version")
 }
 ```
+
+<details>
+<summary>What is that no-op postfix after module names?</summary>
+It is the "No Operation" version of that module. It removes all functionalities that DebugBoard uses during development 
+which reduces release output size
+You can use it in your release variants
+</details>
 
 ## Usage
 
@@ -183,4 +197,5 @@ Timber.plant(
 3. [X] Add some screenshots from the Web Panel
 4. [X] Improve log and add filter in Web Panel
 5. [X] Add Intellij Idea Plugin
+5. [X] Add "No Operation" version of each module
 6. [ ] Add database into panel

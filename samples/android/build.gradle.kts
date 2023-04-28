@@ -39,9 +39,18 @@ dependencies {
      * don't copy this for yours
      * for proper dependencies please see README.md file in GitHub
      */
-    implementation(project(":core"))
-    implementation(project(":plugins:network:ktor"))
-    implementation(project(":plugins:logger:timber"))
-    implementation(project(":plugins:watcher:compose"))
-    implementation(project(":backend"))
+    debugImplementation(project(":core:core"))
+    releaseImplementation(project(":core:core-no-op"))
+
+    debugImplementation(project(":plugins:network:ktor"))
+    releaseImplementation(project(":plugins:network:ktor-no-op"))
+
+    debugImplementation(project(":plugins:logger:timber"))
+    releaseImplementation(project(":plugins:logger:timber-no-op"))
+
+    debugImplementation(project(":plugins:watcher:compose"))
+    releaseImplementation(project(":plugins:watcher:compose-no-op"))
+
+    debugImplementation(project(":backend:backend"))
+    releaseImplementation(project(":backend:backend-no-op"))
 }

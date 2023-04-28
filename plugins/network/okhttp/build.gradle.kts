@@ -18,5 +18,5 @@ publishing {
 dependencies {
     implementation(libs.okhttp.okhttp)
     implementation(libs.okhttp.loggingInterceptor)
-    implementation(project(":core"))
+    api(project(":core:core"))
 }

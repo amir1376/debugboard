@@ -15,7 +15,7 @@ kotlin {
                 api(compose.foundation)
                 api(compose.material)
                 api(compose.materialIconsExtended)
-                implementation(project(":core"))
+                implementation(project(":core:core"))
             }
         }
         named("jvmMain") {
