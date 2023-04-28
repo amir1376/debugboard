@@ -1,9 +1,9 @@
 
-<p style="text-align:center">
+<p align="center" style="text-align:center">
 <img width="75" alt="logo" src="static/logo.svg">
-<h1 style="text-align:center">Debug Board</h1>
+<h1 align="center" style="text-align:center">Debug Board</h1>
 </p>
-<p style="text-align:center;color">
+<p align="center" style="text-align:center">
 Runtime debug utilities for kotlin that has panel for both IDE and Web
 <br><br>
 <a href="https://jitpack.io/#amir1376/debugboard">
