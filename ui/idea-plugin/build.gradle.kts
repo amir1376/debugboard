@@ -59,7 +59,8 @@ tasks {
     patchPluginXml {
         dependsOn(createDescription)
         sinceBuild.set("221")
-        untilBuild.set("231.*")
+        //ignore untilBuild for now
+        untilBuild.set("")
         pluginId.set("ir.amirab.debugboard.idea-plugin")
         version.set(project.version.toString())
         pluginDescription.set(

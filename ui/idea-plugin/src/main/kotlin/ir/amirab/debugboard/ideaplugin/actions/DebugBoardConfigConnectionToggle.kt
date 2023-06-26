@@ -11,30 +11,35 @@ import com.intellij.openapi.ui.Messages
 import io.ktor.http.*
 import io.ktor.http.Url
 import ir.amirab.debugboard.ideaplugin.DebugBoardService
+import ir.amirab.debugboard.ideaplugin.session.Session
 
 @Suppress("ComponentNotRegistered")
-class DebugBoardConfigConnectionToggle : DumbAwareAction() {
+class DebugBoardConfigConnectionToggle(
+    val session: Session
+) : DumbAwareAction() {
     init {
         templatePresentation.apply {
             text = "Toggle Connection"
             description = "Toggle connect/disconnect"
         }
     }
+
     override fun update(e: AnActionEvent) {
         val project: Project = e.project ?: return
 
         val service = project.service<DebugBoardService>()
-        if (service.isConnectedOrConnecting()) {
+        if (session.isConnectedOrConnecting()) {
             e.presentation.icon = AllIcons.Actions.Suspend
         } else {
             e.presentation.icon = AllIcons.Actions.Execute
         }
     }
+
     override fun actionPerformed(e: AnActionEvent) {
         val project: Project = e.project ?: return
         val service = project.service<DebugBoardService>()
-        if (service.isConnectedOrConnecting()) {
-            service.disconnect()
+        if (session.isConnectedOrConnecting()) {
+            session.disconnect()
         } else {
             val address = Messages.showInputDialog(
                 e.project,
@@ -48,6 +53,7 @@ class DebugBoardConfigConnectionToggle : DumbAwareAction() {
                         url.protocol !in listOf(URLProtocol.WS, URLProtocol.WSS) -> {
                             "Protocol must be ws or wss"
                         }
+
                         else -> null
                     }
                 },
@@ -57,7 +63,7 @@ class DebugBoardConfigConnectionToggle : DumbAwareAction() {
             address?.let {
                 val addr = Url(address).toString()
                 thisLogger().info("connecting... to $addr")
-                service.connect(addr)
+                session.connect(addr)
             }
         }
     }

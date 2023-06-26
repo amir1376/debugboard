@@ -5,7 +5,7 @@ import com.intellij.openapi.application.invokeLater
 import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.treeStructure.Tree
 import ir.amirab.debugboard.api.models.ApiVariableInfo
-import ir.amirab.debugboard.ideaplugin.DebugBoardService
+import ir.amirab.debugboard.ideaplugin.session.Session
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
@@ -21,7 +21,7 @@ import javax.swing.tree.TreePath
 
 
 class VariableWatcherViewView(
-    private val debugBoardService: DebugBoardService
+    private val session: Session
 ) : JPanel(GridLayout()), Disposable {
     val scope = CoroutineScope(SupervisorJob())
 
@@ -36,7 +36,7 @@ class VariableWatcherViewView(
             event ?: return
             val path = event.path.toStringPath()
             if (expandedPaths.add(path)) {
-                debugBoardService.setOpenedPaths(expandedPaths)
+                session.setOpenedPaths(expandedPaths)
             }
         }
 
@@ -96,7 +96,7 @@ class VariableWatcherViewView(
 
     init {
         add(JBScrollPane(tree))
-        debugBoardService.variableInfoFlow.onEach {
+        session.variableInfoFlow.onEach {
             onVariablesUpdate(it)
         }.launchIn(scope)
     }

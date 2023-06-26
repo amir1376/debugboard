@@ -6,15 +6,13 @@ import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.State
 import com.intellij.openapi.project.Project
 import io.ktor.client.*
-import ir.amirab.debugboard.api.models.ApiLogData
-import ir.amirab.debugboard.api.models.ApiNetworkData
-import ir.amirab.debugboard.api.models.ApiVariableInfo
-import ir.amirab.debugboard.ideaplugin.utils.debounce
+import ir.amirab.debugboard.ideaplugin.session.Session
+import ir.amirab.debugboard.ideaplugin.session.SessionListStatusEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 
 @State(name = "DebugBoardConfig")
 @Service(Service.Level.PROJECT)
@@ -24,26 +22,28 @@ class DebugBoardService(
     var config = DebugBoardConfig()
     val scope = CoroutineScope(SupervisorJob())
 
-    private val _variableInfoFlow = MutableStateFlow<List<ApiVariableInfo>>(emptyList())
-    val variableInfoFlow = _variableInfoFlow.asStateFlow()
-
-    private val _networkInfoFlow = MutableStateFlow<List<ApiNetworkData>>(emptyList())
-    val networkInfoFlow = _networkInfoFlow.asStateFlow()
-
-    private val _logsDataFlow = MutableStateFlow<List<ApiLogData>>(emptyList())
-
-    //not used yet!
-    val logsDataFlow = _logsDataFlow.asStateFlow()
-
-    private val backend = Backend(
-        scope,
-        _variableInfoFlow,
-        _networkInfoFlow,
-        _logsDataFlow
+    val sessions= mutableListOf(createSession())
+    val sessionUpdateFlow= MutableSharedFlow<SessionListStatusEvent>(
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
     )
+    fun addSession(){
+        val session = createSession()
+        sessions.add(session)
+        sessionUpdateFlow.tryEmit(SessionListStatusEvent.AddSession(session))
+    }
+    fun removeSession(session: Session){
+        session.close()
+        sessions.remove(session)
+        sessionUpdateFlow.tryEmit(SessionListStatusEvent.RemoveSession(session))
+    }
 
     init {
         bootstrap()
+    }
+
+    private fun createSession(): Session {
+        return Session(scope,config,project)
     }
 
     private fun bootstrap() {
@@ -54,27 +54,6 @@ class DebugBoardService(
         scope.cancel()
     }
 
-
-    fun connect(address: String) {
-        config.lastUsedHost = address
-        backend.connect(address)
-    }
-
-    fun isConnectedOrConnecting(): Boolean {
-        return backend.connectionState.value is ConnectionStatus.Connecting || backend.connectionState.value is ConnectionStatus.Connected
-    }
-
-    fun backendStatus(): MutableStateFlow<ConnectionStatus> {
-        return backend.connectionState
-    }
-
-    fun disconnect() {
-        backend.disconnect()
-    }
-
-    val setOpenedPaths = scope.debounce(50) { it: Set<List<String>> ->
-        backend.setWatcherPaths(it)
-    }
 
     override fun getState(): DebugBoardConfig? {
         return config

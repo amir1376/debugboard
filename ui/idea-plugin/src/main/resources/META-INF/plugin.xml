@@ -5,6 +5,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow
                 anchor="bottom"
+                canCloseContents="true"
                 icon="/icons/toolWindow.svg"
                 factoryClass="ir.amirab.debugboard.ideaplugin.views.DebugBoardToolWindowFactory"
                 id="Debug Board">

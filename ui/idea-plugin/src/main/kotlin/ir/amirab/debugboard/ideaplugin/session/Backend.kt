@@ -1,4 +1,4 @@
-package ir.amirab.debugboard.ideaplugin
+package ir.amirab.debugboard.ideaplugin.session
 
 import com.intellij.openapi.diagnostic.thisLogger
 import io.ktor.client.*

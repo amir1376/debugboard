@@ -7,9 +7,9 @@ import com.intellij.openapi.actionSystem.ActionPlaces
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.util.Disposer
 import com.intellij.ui.components.JBTabbedPane
-import ir.amirab.debugboard.ideaplugin.ConnectionStatus
-import ir.amirab.debugboard.ideaplugin.DebugBoardService
+import ir.amirab.debugboard.ideaplugin.session.ConnectionStatus
 import ir.amirab.debugboard.ideaplugin.actions.DebugBoardConfigConnectionToggle
+import ir.amirab.debugboard.ideaplugin.session.Session
 import ir.amirab.debugboard.ideaplugin.views.network_watcher.NetworkWatcherView
 import ir.amirab.debugboard.ideaplugin.views.variable_watcher.VariableWatcherViewView
 import kotlinx.coroutines.CoroutineScope
@@ -21,14 +21,14 @@ import java.awt.BorderLayout
 import javax.swing.JPanel
 
 class DebugBoardPanel(
-    private val debugBoardService: DebugBoardService,
+    private val session: Session,
 ) : JPanel(BorderLayout()), Disposable {
     lateinit var updateTitle: (String) -> Unit
-    var title = "Debug Board"
+    var title = session.name
     private val scope = CoroutineScope(SupervisorJob())
     fun init() {
         val group = DefaultActionGroup().apply {
-            add(DebugBoardConfigConnectionToggle())
+            add(DebugBoardConfigConnectionToggle(session))
         }
         val actionToolbar = ActionManager.getInstance().createActionToolbar(ActionPlaces.TOOLBAR, group, false)
         actionToolbar.targetComponent = this
@@ -41,20 +41,20 @@ class DebugBoardPanel(
             addTab(
                 "Variable Watcher",
                 AllIcons.Debugger.Watch,
-                VariableWatcherViewView(debugBoardService).also {
+                VariableWatcherViewView(session).also {
                     Disposer.register(this@DebugBoardPanel, it)
                 }
             )
             addTab(
                 "Network Watcher",
                 AllIcons.Actions.InlayGlobe,
-                NetworkWatcherView(debugBoardService).also {
+                NetworkWatcherView(session).also {
                     Disposer.register(this@DebugBoardPanel, it)
                 }
             )
         }, BorderLayout.CENTER)
 
-        debugBoardService.backendStatus().onEach {
+        session.backendStatus().onEach {
             updateTitle("$title (${getTitleOfConnectionStatus(it)})")
         }.launchIn(scope)
     }
